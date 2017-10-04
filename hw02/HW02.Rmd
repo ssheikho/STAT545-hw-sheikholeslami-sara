@@ -1,4 +1,10 @@
-# STAT545-hw02-sheikholeslami-sara-
+---
+title: "HW 2: Explore Gapminder and use dplyr"
+author: "Sara Sheikholeslami"  
+date: "`r format(Sys.Date())`"
+output: 
+  github_document
+---
 
 # Overview
 The following readme document is provided for hw02.
