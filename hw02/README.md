@@ -1,7 +1,7 @@
 # STAT545-hw02-sheikholeslami-sara
 
 # Overview
-The following readme document is provided for <a href="https://github.com/ssheikho/STAT545-hw-sheikholeslami-sara/blob/master/hw02/HW02.md">hw02.</>
+The following readme document is provided for <a href="https://github.com/ssheikho/STAT545-hw-sheikholeslami-sara/blob/master/hw02/HW02.md">hw02</a>.
 
 hw02 includes the following sections: 
 
