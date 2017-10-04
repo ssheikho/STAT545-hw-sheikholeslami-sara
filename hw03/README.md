@@ -1,24 +1,16 @@
-# STAT545-hw02-sheikholeslami-sara
+# STAT545-hw03-sheikholeslami-sara
 
 # Overview
-The following readme document is provided for <a href="https://github.com/ssheikho/STAT545-hw-sheikholeslami-sara/blob/master/hw02/HW02.md">hw02</a>.
+The following readme document is provided for <a href="https://github.com/ssheikho/STAT545-hw-sheikholeslami-sara/tree/master/hw03">hw03</a>.
 
-hw02 includes the following sections: 
+hw03 includes the following sections: 
 
-1. <a href="https://github.com/ssheikho/STAT545-hw-sheikholeslami-sara/blob/master/hw02/HW02.md#1">Make a homework repo</a>
+1. <a href="https://github.com/ssheikho/STAT545-hw-sheikholeslami-sara/blob/master/hw03/HW03.md#1">Your mission, high-leve</a>
 
-2. <a href="https://github.com/ssheikho/STAT545-hw-sheikholeslami-sara/blob/master/hw02/HW02.md#2">Bring rectangular data in</a>
+2. <a href="https://github.com/ssheikho/STAT545-hw-sheikholeslami-sara/blob/master/hw03/HW03.md#2">Task menu</a>
 
-3. <a href="https://github.com/ssheikho/STAT545-hw-sheikholeslami-sara/blob/master/hw02/HW02.md#3">Smell test the data</a>
+3. <a href="https://github.com/ssheikho/STAT545-hw-sheikholeslami-sara/blob/master/hw03/HW03.md#3">Companion graphs</a>
 
-4. <a href="https://github.com/ssheikho/STAT545-hw-sheikholeslami-sara/blob/master/hw02/HW02.md#4">Explore individual variables</a>
+4. <a href="https://github.com/ssheikho/STAT545-hw-sheikholeslami-sara/blob/master/hw03/HW03.md#4">EBut I want to do more!</a>
 
-5. <a href="https://github.com/ssheikho/STAT545-hw-sheikholeslami-sara/blob/master/hw02/HW02.md#5">Explore various plot types</a>
-
-6. <a href="https://github.com/ssheikho/STAT545-hw-sheikholeslami-sara/blob/master/hw02/HW02.md#6">Use filter(), select() and %>% </a>
-
-7. <a href="https://github.com/ssheikho/STAT545-hw-sheikholeslami-sara/blob/master/hw02/HW02.md#7">But I want to do more!</a>
-
-8. <a href="https://github.com/ssheikho/STAT545-hw-sheikholeslami-sara/blob/master/hw02/HW02.md#8">Report your process</a>
-
-
+5. <a href="https://github.com/ssheikho/STAT545-hw-sheikholeslami-sara/blob/master/hw03/HW03.md#5">Report your process</a>
