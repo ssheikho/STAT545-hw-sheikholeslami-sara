@@ -1,0 +1,198 @@
+---
+title: "HW 3: Use dplyr to manipulate and explore data (also use ggplot2)"
+author: "Sara Sheikholeslami"  
+date: "`r format(Sys.Date())`"
+output: 
+  github_document
+---
+
+# Overview
+The following readme document is provided for hw03.
+This README file includes:
+
+1. [Your mission, high-level](#1)
+
+2. [Task menu](#2)
+
+3. [Companion graphs](#3)
+
+4. [But I want to do more!](#4)
+
+5. [Report your process](#5)
+
+## <a id="1"></a> 1. Your mission, high-level
+
+- `dplyr` will be used for data manipulation 
+- `ggplot2` will be used for visualization 
+
+## <a id="2"></a> 2. Task menu
+
+Let's start by loading the required liberaries:
+
+```{r}
+suppressWarnings(suppressMessages(library(tidyverse)))
+library(tidyverse)
+library(gapminder)
+```
+
+***Task 1:*** Get the maximum and minimum of GDP per capita for all continents.
+
+```{r}
+
+knitr::kable(gapminder%>% 
+  group_by(continent) %>% 
+  dplyr::select(continent, gdpPercap) %>%
+  summarise(maxGdp = max(gdpPercap), minGdp = min(gdpPercap)), align = 'c', format = 'markdown')
+  
+```
+```{r}
+ggplot(gapminder,aes(x=continent,y=gdpPercap))+geom_point(aes(color=continent))+theme_bw()+labs(title="continent vs gdpPercap")
+
+```
+Well the figure above is not really informative!
+
+Let's only plot the maximum and minimum gdpPercap for all continents:
+
+```{r}
+
+gapminder%>% 
+  group_by(continent) %>%
+  mutate(minGdp = (min(gdpPercap)==gdpPercap)) %>% 
+  mutate(maxGdp = (max(gdpPercap)==gdpPercap)) %>%
+  #mutate(minMaxGdp = as.vector(rbind(min(gdpPercap),min(gdpPercap)))) %>% 
+  #mutate(minMaxGdp = c(min(gdpPercap), max(gdpPercap))) %>%
+  ggplot(aes(x=lifeExp , y=gdpPercap)) + geom_point(aes(color=minGdp , size=maxGdp)) +facet_wrap(~continent)
+  
+```
+
+the different colored point indicates the minimum, and the big sized point indicates the maximum for each continent.
+
+Alternatively:
+```{r}
+gapminder%>%
+  group_by(continent)%>%
+  mutate(minGdp=min(gdpPercap))%>%
+  ggplot(aes(x=continent , y=minGdp)) + geom_point(aes(color=minGdp))
+
+
+gapminder%>%
+  group_by(continent)%>%
+  mutate(maxGdp=max(gdpPercap))%>%
+  ggplot(aes(x=continent , y=maxGdp)) + geom_point(aes(color=maxGdp))
+
+```
+This way we are only looking at the minimum and maximum GDP values for each continent!
+
+***Task 2:*** Look at the spread of GDP per capita within the continents.
+
+```{r}
+knitr::kable(gapminder%>% 
+  group_by(continent) %>% 
+  dplyr::select(continent, gdpPercap) %>%
+  summarise(maxGdp = max(gdpPercap), minGdp = min(gdpPercap), range =  IQR(gdpPercap)), align = 'c', format = 'markdown')
+```
+
+Let's start with histogram:
+
+```{r}
+
+set.seed(1)
+mydf <- data.frame(continent = gapminder$continent, 
+                   gdpPercap = gapminder$gdpPercap)
+head(mydf)
+tail(mydf)
+
+library(lattice)
+histogram(~gdpPercap | continent, data = mydf)
+```
+
+And a density plot:
+```{r}
+densityplot(~gdpPercap | continent, data = mydf)
+```
+
+
+Another way to look at spread is to use boxplots:
+```{r}
+ggplot(gapminder,aes(x=continent,y=gdpPercap)) + 
+  geom_boxplot(outlier.colour = "light pink", show.legend = TRUE) + 
+  geom_jitter(position = position_jitter(width = 1), alpha = 0.08)
+```
+
+and fitting a distribution:
+
+```{r}
+
+library(fitdistrplus)
+library(logspline)
+descdist(gapminder$gdpPercap, discrete = FALSE)
+
+fit.weibull <- fitdist(gapminder$gdpPercap, "weibull")
+plot(fit.weibull)
+
+```
+The data ranges from min:  241.1659 and  max:  113523.1.
+
+***Task 3:*** Compute a trimmed mean of life expectancy for different years. Or a weighted mean, weighting by population. Just try something other than the plain vanilla mean.
+
+**trimmed mean**
+```{r}
+library("kableExtra")
+html_table_width <- function(kable_output, width){
+  width_html <- paste0(paste0('<col width="', width, '">'), collapse = "\n")
+  sub("<table>", paste0("<table>\n", width_html), kable_output)
+}
+
+knitr::kable(
+subset<-gapminder%>%
+  group_by(year)%>%
+  summarise(meanT=mean(lifeExp,trim=0.5),meanW=weighted.mean(lifeExp,pop)), format = "html", booktabs = TRUE, caption = 'Trimmed mean and weighted mean of life expectancy for different years.') %>%
+  html_table_width(c(50,100,100))
+```
+
+```{r}
+ggplot(subset,aes(x = year, y = meanT))+ geom_point(color="blue")+
+  geom_point(aes(x = year, y = meanW),color="red") +
+  labs(x="year", y="Mean Life Expectancy", title="Mean Life Expectancy vs. year")
+```
+
+
+***Task 4:*** How is life expectancy changing over time on different continents?
+```{r}
+html_table_width <- function(kable_output, width){
+  width_html <- paste0(paste0('<col width="', width, '">'), collapse = "\n")
+  sub("<table>", paste0("<table>\n", width_html), kable_output)
+}
+
+subset<-gapminder%>% 
+  group_by(year, continent)%>% 
+  #group_by(year)%>% 
+  summarise( meanT=mean(lifeExp,trim=0.5), meanW=weighted.mean(lifeExp,pop))
+  #mutate(diff_lifeExp=c(0,diff(mean_lifeExp)))
+knitr::kable(subset, format = "html", booktabs = TRUE, caption = 'Table of life expectancy changing over time on different continents') %>%
+  html_table_width(c(100,100,100,100))
+```
+```{r}
+
+gapminder%>%
+  group_by(continent, year, lifeExp)%>% 
+  summarise( meanT=mean(lifeExp,trim=0.5), meanW=weighted.mean(lifeExp,pop)) %>% 
+ggplot(aes(year, lifeExp)) +
+    facet_wrap(~ continent) +
+    geom_point(alpha=0.3) +
+  geom_smooth(aes(x = year, y = meanW),color="blue") +
+  labs(x="year", y="Mean Life Expectancy", title="Mean Life Expectancy vs. year")
+          
+```
+
+## <a id="3"></a> 3. Companion graphs
+
+Please refer to previous section!
+
+## <a id="4"></a> 4. But I want to do more!
+
+No time... :(
+
+## <a id="8"></a> 8. Report your process
+
+Overall I found this assignment easy to do except for visualizing ***Task 4:***. It took me a LONG time to figure out how to plot the data in a sensible manner!
