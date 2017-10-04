@@ -15,12 +15,10 @@ hw02 includes the following sections:
 
 5. <a href="https://github.com/ssheikho/STAT545-hw-sheikholeslami-sara/blob/master/hw02/HW02.md#5">Explore various plot types</a>
 
-6 <a href="https://github.com/ssheikho/STAT545-hw-sheikholeslami-sara/blob/master/hw02/HW02.md#6">Use filter(), select() and %>%</a>
+6. <a href="https://github.com/ssheikho/STAT545-hw-sheikholeslami-sara/blob/master/hw02/HW02.md#6">Use filter(), select() and %>% </a>
 
-7 <a href="https://github.com/ssheikho/STAT545-hw-sheikholeslami-sara/blob/master/hw02/HW02.md#7">But I want to do more!</a>
+7. <a href="https://github.com/ssheikho/STAT545-hw-sheikholeslami-sara/blob/master/hw02/HW02.md#7">But I want to do more!</a>
 
-8 <a href="https://github.com/ssheikho/STAT545-hw-sheikholeslami-sara/blob/master/hw02/HW02.md#8"></a>
-
-8. <a href="https://github.com/ssheikho/STAT545-hw-sheikholeslami-sara/blob/master/hw02/HW02.md#1">Report your process</a>
+8. <a href="https://github.com/ssheikho/STAT545-hw-sheikholeslami-sara/blob/master/hw02/HW02.md#8">Report your process</a>
 
 
