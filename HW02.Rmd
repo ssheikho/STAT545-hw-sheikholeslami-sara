@@ -1,4 +1,4 @@
-# STAT545-hw02-sheikholeslami-sara-
+# STAT545-hw02-sheikholeslami-sara
 
 # Overview
 The following readme document is provided for hw02.
