@@ -1,0 +1,284 @@
+---
+title: "HW 4:  Tidy data and joins"
+author: "Sara Sheikholeslami"  
+date: "`r format(Sys.Date())`"
+output: 
+  github_document
+---
+
+1. [General data reshaping and relationship to aggregation](#1)
+    
+    1.1. [Activity #2](#2)
+    
+    1.2. [Activity #3](#3)
+    
+
+2. [Join, merge, look up](#4)
+
+    2.1. [left join](#5)
+    
+    2.2. [right join](#6)
+    
+    2.3. [inner join](#7)
+    
+    2.4. [full join](#8)
+    
+    2.5. [semi join](#9)
+    
+    2.6. [anti join](#10)
+
+3. [Report your process](#11)
+
+## <a id="1"></a> 1. General data reshaping and relationship to aggregation
+
+Let's start by loading the required liberaries:
+```{r}
+suppressWarnings(suppressMessages(library(tidyverse)))
+library(tidyverse)
+library(gapminder)
+```
+Time to tackle the activities!
+
+**<a id="2"></a> 1.1. Activity #2**
+
+Make a tibble with one row per year and columns for life expectancy for two or more countries.
+Use knitr::kable() to make this table look pretty in your rendered homework.
+Take advantage of this new data shape to scatterplot life expectancy for one country against that of another.
+
+Let's create a new data shape that looks at life expectancy for two or more countries per year:
+```{r}
+subset = gapminder %>%
+  filter(country %in% c("Iran", "China")) %>%
+  select(year, country, lifeExp) %>%
+  spread(country, lifeExp)
+```
+
+Now let's make a tibble representing this new data shape:
+```{r}
+library("kableExtra")
+html_table_width <- function(kable_output, width){
+  width_html <- paste0(paste0('<col width="', width, '">'), collapse = "\n")
+  sub("<table>", paste0("<table>\n", width_html), kable_output)}
+
+knitr::kable(subset, format = "html", booktabs = TRUE, caption = 'Table of life expectancy changing over time on two different countries') %>%
+  html_table_width(c(0,100,100))
+```
+Now let's plot the results:
+```{r}
+subset%>%
+  ggplot(aes(x=China,y=Iran)) + geom_point()+labs(title=" life expectancy changing over time on two different countries")+geom_text(aes(label=year),hjust=1, vjust=0)+
+   geom_smooth(se=FALSE, colour="red")
+
+```
+
+Let's try a different representation:
+        
+```{r}
+subset = gapminder %>%
+        select(year, country, lifeExp) %>%
+        filter(country %in% c("Iran", "China"))
+
+subset%>%
+  ggplot(aes(x = year, y = lifeExp, colour = country)) +
+  geom_point() + 
+  geom_line() +
+  theme(legend.title = element_text(size=12, face="bold"), legend.text = element_text(size=12)) +
+  labs(x = "Year", y = "Life Expectancy", title = "life expectancy changing over time on two different countrie") 
+```
+        
+        
+**<a id="3"></a> 1.2. Activity #3**
+
+Considering all the measures of life expectancy:
+```{r}
+subset2<-gapminder%>%
+  group_by(continent,year)%>%
+  summarise(meanLE=mean(lifeExp),medianLE=median(lifeExp),minLE=min(lifeExp),maxLE=max(lifeExp))
+
+html_table_width <- function(kable_output, width){
+  width_html <- paste0(paste0('<col width="', width, '">'), collapse = "\n")
+  sub("<table>", paste0("<table>\n", width_html), kable_output)}
+
+knitr::kable(subset2, format = "html", booktabs = TRUE, caption = 'Different measures of life expectancy (mean, median, min and max) for all possible combinations of continent and year') %>%
+  html_table_width(c(0,100,100,100,100,100))
+```
+
+Now let's only look at the mean values:
+
+A: Reshape data to have one row per year and one variable for each continent. 
+```{r}
+subset3<-subset2%>%
+  select(year,continent,meanLE)%>%
+  spread(key=continent, value=meanLE)
+
+knitr::kable(subset3, format = "html", booktabs = TRUE, caption = 'measures of mean life expectancy for all possible combinations of continent and year') %>%
+  html_table_width(c(0,100,100,100,100,100))%>%
+  kable_styling(bootstrap_options = c("striped", "hover"))
+```
+
+
+B: Reshape data to have one row per continent and one variable per year.
+
+```{r}
+subset4<-subset2%>%
+ select(year,continent,meanLE)%>%
+  spread(key=year, value=meanLE)
+
+knitr::kable(subset4, format = "html", booktabs = TRUE, caption = 'measures of mean life expectancy for all possible combinations of continent and year') %>%
+  html_table_width(c(0,200,200,200,200,200,200,200,200,200,200,200,200))%>%
+  kable_styling(bootstrap_options = c("striped", "hover"))
+
+```
+
+```{r}
+subset3%>%
+  ggplot(aes(x=Asia,y=Africa)) + geom_point()+labs(title="measures of mean life expectancy for two continents per year")+geom_text(aes(label=year),hjust=1, vjust=0)+
+   geom_smooth(se=FALSE, colour="red")
+```
+The data shaped in 'subset3' is easier to plot as it's visually clear to see the change of mean life expectancy over years for two continents. You can potentially extend this to higher dimentions when considering more than 2 continents! 
+
+## <a id="4"></a> 2. Join, merge, look up
+
+Let's create 2 new data frames:
+1. subset: consider all the different measures of life expectancy.
+2. subset2: takes a subset of gapminder (only three continents).
+
+```{r}
+subset<-gapminder%>%
+  group_by(year)%>%
+  summarise(meanLE=mean(lifeExp),medianLE=median(lifeExp),minLE=min(lifeExp),maxLE=max(lifeExp)) %>%
+  filter(year>=1992)
+
+#select(meanLE, medianLE, minLE, maxLE) 
+
+subset2<-gapminder%>%
+  filter(continent %in% c("Asia", 
+                        "Europe", 
+                        "Africa"))
+  
+knitr::kable(subset, format = "html", booktabs = TRUE, caption = 'New dataset looking at all the different measures of life expectancy') %>%
+  html_table_width(c(0,100,100,100,100,100))
+```
+
+***<a id="5"></a> 2.1. left join***
+
+Return all rows from the left table, and any rows with matching keys from the right table.
+
+```{r}
+d.left <- left_join(subset2, subset, by="year")
+glimpse(d.left)
+knitr::kable(head(d.left,n=10))
+```
+
+in the above table, left join returns all the rows from the left table (subset2) plus any additional rows from the right table (subset).
+
+Now let's reverse the order:
+```{r}
+d.left2 = left_join(subset, subset2, by="year")
+glimpse(d.left2)
+knitr::kable(head(d.left2,n=10))
+```
+
+in the above table, left join returns all the rows from the left table (subset) plus any additional rows from the right table (subset2).
+
+***<a id="6"></a> 2.2. right join***
+
+right-join is similar to left_join except that the arguments are switched, thus the function. Below compares left-join to right-join.
+
+```{r}
+d.left = left_join(subset, subset2, by="year")
+d.right = right_join(subset, subset2, by="year")
+
+knitr::kable(head(d.left,n=10))
+knitr::kable(head(d.right,n=10))
+```
+
+***<a id="7"></a> 2.3. inner join***
+
+Return only the rows in which the left table has matching keys in the right table.
+
+```{r}
+d.inner <- inner_join(subset2, subset, by="year")
+glimpse(d.inner)
+knitr::kable(head(d.inner,n=10))
+
+```
+
+Now let's reverse the order:
+```{r}
+d.inner <- inner_join(subset, subset2, by="year")
+glimpse(d.inner)
+knitr::kable(head(d.inner,n=10))
+
+```
+
+In the two above tables, only the order of the columns are switched. In the first table, we first see the variables of 'subset2' followed by the variables of 'subset' (each column represents one variable).
+
+***<a id="8"></a> 2.4. full join***
+
+Return everything from both data frames.
+
+```{r}
+d.full <- full_join(subset, subset2, by="year")
+glimpse(d.full)
+knitr::kable(head(d.full,n=10))
+```
+
+Now let's swith the ordering:
+```{r}
+d.full <- full_join(subset2, subset, by="year")
+glimpse(d.full)
+knitr::kable(head(d.full, n=10))
+```
+
+In the two above tables, only the order of the columns are switched. In the first table (where subset is specified first), we first see the variables of 'subset' followed by the variables of 'subset2' (each column represents one variable).
+
+***<a id="9"></a> 2.5. semi join***
+
+Returns the mutated first dataframe corresponding to every row in the first dataframe for which there are observations in the second dataframe.
+
+```{r}
+d.semi <- semi_join(subset2, subset, by="year")
+glimpse(d.semi)
+knitr::kable(head(d.semi, n=10))
+```
+
+This table is simply 'subset2' 
+
+```{r}
+d.semi <- semi_join(subset, subset2, by="year")
+glimpse(d.semi)
+knitr::kable(d.semi, n=10)
+```
+
+This table is simply subset! 
+
+***<a id="10"></a> 2.6.anti join***
+
+Does reverse of semi-join: returns the mutated first dataframe corresponding to every row in the first dataframe for which there are NO observations in the second dataframe.
+
+
+```{r}
+d.anti <- anti_join(subset, subset2, by="year")
+glimpse(d.anti)
+#knitr::kable(d.anti, n=10)
+```
+
+As expected, the above returns NULL since all the observations from subset are also found in subset2.
+
+Now let's reverse the order:
+
+```{r}
+d.anti <- anti_join(subset2, subset, by="year")
+glimpse(d.anti)
+knitr::kable(head(d.anti, n=10))
+```
+
+This table contains all the observations from subset2 that are not found in subset.
+
+
+## <a id="11"></a> 3. Report your process
+
+Overall I found this assignment easy to do. 
+- I spent a lot of time trying to do 3d scatter plots but I was not able to generate a sensible visualization.... 
+- I found using the join functions over and over a bit tedious!
