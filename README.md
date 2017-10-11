@@ -7,3 +7,5 @@ This README links to all the homeworks.
 2. <a href="https://github.com/ssheikho/STAT545-hw-sheikholeslami-sara/tree/master/hw02">hw02</a>.
 
 3. <a href="https://github.com/ssheikho/STAT545-hw-sheikholeslami-sara/tree/master/hw03">hw03</a>
+
+4. <a href="https://github.com/ssheikho/STAT545-hw-sheikholeslami-sara/tree/master/hw04">hw04</a>
