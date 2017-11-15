@@ -2,6 +2,7 @@
 
 This README links to all the homeworks.
 
+<<<<<<< HEAD
 ### Homework Assignments
 
 Homework || Description
@@ -11,3 +12,4 @@ Homework || Description
 [HW03](https://github.com/ssheikho/STAT545-hw-sheikholeslami-sara/tree/master/hw03) || More dplyr and ggplot2
 [HW04](https://github.com/ssheikho/STAT545-hw-sheikholeslami-sara/tree/master/hw04) || Tidy data and joins
 [HW05](https://github.com/ssheikho/STAT545-hw-sheikholeslami-sara/tree/master/hw05) || Factor management, Visualization, Saving
+
