@@ -2,8 +2,12 @@
 
 This README links to all the homeworks.
 
-1. <a href="https://github.com/ssheikho/STAT545-hw-sheikholeslami-sara/tree/master/hw01">hw01</a>.
+### Homework Assignments
 
-2. <a href="https://github.com/ssheikho/STAT545-hw-sheikholeslami-sara/tree/master/hw02">hw02</a>.
-
-3. <a href="https://github.com/ssheikho/STAT545-hw-sheikholeslami-sara/tree/master/hw03">hw03</a>
+Homework || Description
+------------------------------|----------------|-------------------------------------
+[HW01](https://github.com/ssheikho/STAT545-hw-sheikholeslami-sara/tree/master/hw01) || Repo creation and intro to R
+[HW02](https://github.com/ssheikho/STAT545-hw-sheikholeslami-sara/tree/master/hw02) || Explore Gapminder, dplyr introduction
+[HW03](https://github.com/ssheikho/STAT545-hw-sheikholeslami-sara/tree/master/hw03) || More dplyr and ggplot2
+[HW04](https://github.com/ssheikho/STAT545-hw-sheikholeslami-sara/tree/master/hw04) || Tidy data and joins
+[HW05](https://github.com/ssheikho/STAT545-hw-sheikholeslami-sara/tree/master/hw05) || Factor management, Visualization, Saving
