@@ -30,8 +30,6 @@ output:
 
 5. [Clean up your repo!](#10)
 
-6. [But I want to do more!](#11)
-
 7. [Report your process](#12)
 
 In this homework I will work with the gapminder data. Let's start by loading the required liberaries:
@@ -262,12 +260,15 @@ ggsave("plot.png", width=15, height=15, units="cm", plot=plot1)
 
 ## <a id="10"></a> 5. Clean up your repo!
 
-
-
-## <a id="11"></a> 6. But I want to do more!
+Here is my [Repo](https://github.com/ssheikho/STAT545-hw-sheikholeslami-sara/tree/master) 
 
 ## <a id="12"></a> 7. Report your process
 
-Overall I found this assignment easy to do. 
-- I spent a lot of time trying to do 3d scatter plots but I was not able to generate a sensible visualization.... 
-- I found using the join functions over and over a bit tedious!
+Overall, I found this assignment relatively easy to do but very long and time-consiming...
+
+In this homework, it was easy to work with refactoring, and levels to have an overview of the levels of factor variable. 
+
+Writing and reading into a file is pretty streight forward too!
+
+I found data visualization challenging, because you need to have a good understanding of what is happening in the data to be able to use appropriate subsets of the data, and get meaningful figures!
+
